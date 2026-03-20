@@ -1,65 +1,91 @@
-import Image from "next/image";
+import Link from "next/link";
+import Container from "@/components/layout/Container";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="pb-16 pt-10 sm:pt-14">
+      <Container>
+        <div className="flex flex-col gap-12">
+          <section className="rounded-3xl border border-zinc-200/90 bg-gradient-to-b from-white via-[#fffdfb] to-[#f8f4f3] px-6 py-11 sm:px-12 sm:py-12">
+            <div className="max-w-3xl space-y-5">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#7d1f2a]/15 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
+                Nonprofit-focused decision support
+              </div>
+              <h1 className="text-balance text-4xl font-semibold leading-[1.12] tracking-tight text-zinc-900 sm:text-5xl">
+                Find potential funders that match your mission using public
+                grant history.
+              </h1>
+              <p className="max-w-2xl text-pretty text-lg leading-8 text-zinc-700">
+                Share a few details about your organization and funding need.
+                You’ll get a ranked shortlist with plain-language explanations
+                and outreach guidance.
+              </p>
+
+              <div className="flex flex-col gap-4 border-t border-zinc-200/80 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <Link
+                  href="/tool"
+                  className="inline-flex h-11 items-center justify-center rounded-xl bg-[#7d1f2a] px-6 text-sm font-semibold text-white shadow-sm hover:bg-[#5f1620] focus:outline-none focus:ring-2 focus:ring-[#7d1f2a]/30 focus:ring-offset-2"
+                >
+                  Start matching
+                </Link>
+                <div className="text-sm text-zinc-600 sm:text-right">
+                  Decision support only. No guarantee of funding.
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
+                  Plain-language explanations
+                </span>
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
+                  Built for clarity
+                </span>
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
+                  Public-data matching
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
+              How it works
+            </h2>
+            <ol className="mt-5 grid gap-5 sm:grid-cols-3">
+              <li className="rounded-2xl border border-zinc-200/90 bg-white p-6">
+                <div className="text-sm font-semibold text-[#7d1f2a]">Step 1</div>
+                <div className="mt-3 text-[22px] font-semibold leading-8 tracking-tight text-zinc-900">
+                  Share your mission and funding need
+                </div>
+                <div className="mt-3 text-base leading-7 text-zinc-700">
+                  Enter a few keywords, a short context, your city/state, and
+                  your desired grant amount.
+                </div>
+              </li>
+              <li className="rounded-2xl border border-zinc-200/90 bg-white p-6">
+                <div className="text-sm font-semibold text-[#7d1f2a]">Step 2</div>
+                <div className="mt-3 text-[22px] font-semibold leading-8 tracking-tight text-zinc-900">
+                  We match you to funders
+                </div>
+                <div className="mt-3 text-base leading-7 text-zinc-700">
+                  Matching uses public grant/funder history and your geography
+                  and budget context to rank recommendations.
+                </div>
+              </li>
+              <li className="rounded-2xl border border-zinc-200/90 bg-white p-6">
+                <div className="text-sm font-semibold text-[#7d1f2a]">Step 3</div>
+                <div className="mt-3 text-[22px] font-semibold leading-8 tracking-tight text-zinc-900">
+                  Review explanations and outreach steps
+                </div>
+                <div className="mt-3 text-base leading-7 text-zinc-700">
+                  Each recommendation includes a plain-language rationale, sample
+                  past grants, and next-step outreach guidance.
+                </div>
+              </li>
+            </ol>
+          </section>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </Container>
     </div>
   );
 }
