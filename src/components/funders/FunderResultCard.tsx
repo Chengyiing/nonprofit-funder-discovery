@@ -76,6 +76,8 @@ export default function FunderResultCard({
           </div>
         </div>
 
+        <div className="text-xs text-zinc-600">{geography.focusText}</div>
+
         <div className="flex flex-wrap gap-2">
           {result.purposeCategories.map((cat) => (
             <span
@@ -97,7 +99,7 @@ export default function FunderResultCard({
               A few past grants
             </div>
             <div className="mt-1 text-xs text-zinc-600">
-              Example grants from public records (mock data in this scaffold).
+              Example grants from public records.
             </div>
           </div>
           <SampleGrantList grants={result.samplePastGrants} />

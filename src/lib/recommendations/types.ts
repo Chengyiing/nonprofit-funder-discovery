@@ -49,6 +49,6 @@ export type RecommendationsResponse = {
   results: FunderRecommendation[];
   noGoodMatchesFound: boolean;
   generatedAt: string;
-  dataSource?: "mock";
+  dataSource?: "csv_profile";
 };
 

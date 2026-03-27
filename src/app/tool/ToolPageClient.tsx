@@ -36,7 +36,7 @@ export default function ToolPageClient() {
   const [results, setResults] = useState<FunderRecommendation[]>([]);
   const [noGoodMatchesFound, setNoGoodMatchesFound] = useState(false);
   const [generatedAt, setGeneratedAt] = useState<string | null>(null);
-  const [dataSource, setDataSource] = useState<"mock" | undefined>(undefined);
+  const [dataSource, setDataSource] = useState<"csv_profile" | undefined>(undefined);
 
   const summaryLine = useMemo(() => {
     if (!generatedAt) return "";
@@ -75,7 +75,7 @@ export default function ToolPageClient() {
       setResults(Array.isArray(data.results) ? data.results : []);
       setNoGoodMatchesFound(Boolean(data.noGoodMatchesFound));
       setGeneratedAt(typeof data.generatedAt === "string" ? data.generatedAt : null);
-      setDataSource(data.dataSource === "mock" ? "mock" : undefined);
+      setDataSource(data.dataSource === "csv_profile" ? "csv_profile" : undefined);
     } catch {
       setError("Something went wrong while generating recommendations. Please try again.");
     } finally {
@@ -149,7 +149,9 @@ export default function ToolPageClient() {
 
                   <div className="mt-3 text-xs text-zinc-500">
                     {summaryLine}
-                    {dataSource === "mock" ? " Example results are based on mock data in this scaffold." : null}
+                    {dataSource === "csv_profile"
+                      ? " Recommendations are generated from funder_profile_final.csv and final_grants_clean.csv."
+                      : null}
                   </div>
                 </div>
               </div>
@@ -169,11 +171,9 @@ export default function ToolPageClient() {
                     <li className="mb-1">Check the grant amount is realistic for your request.</li>
                   </ul>
                 </div>
-                {dataSource === "mock" ? (
-                  <div className="mt-3 text-xs text-zinc-500">
-                    This scaffold uses mock data, so matching will be limited.
-                  </div>
-                ) : null}
+                <div className="mt-3 text-xs text-zinc-500">
+                  Try broadening issue keywords and adding more mission context for better matches.
+                </div>
               </div>
             ) : null}
           </section>

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { toolInputSchema } from "@/lib/recommendations/inputSchema";
-import { getMockRecommendations } from "@/lib/recommendations/match";
+import { getRecommendationsFromCsv } from "@/lib/recommendations/match";
 
 export async function POST(req: Request) {
   let body: unknown = null;
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const response = getMockRecommendations(parsed.data);
+  const response = await getRecommendationsFromCsv(parsed.data);
   return NextResponse.json(response, { status: 200 });
 }
 

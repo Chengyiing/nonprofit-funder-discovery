@@ -1,150 +1,147 @@
+import { getRecommendationData } from "./csvData";
 import type {
   FunderRecommendation,
   RecommendationsResponse,
   SamplePastGrant,
   ToolInput,
 } from "./types";
-import { MOCK_FUNDERS } from "./mockFunderData";
 
-function tokenize(text: string) {
+function tokenize(text: string): string[] {
   return text
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, " ")
     .split(/\s+/)
-    .filter(Boolean);
+    .filter((t) => t.length >= 3);
 }
 
-function pickMatchingHints(hints: string[], combinedText: string) {
-  const lc = combinedText.toLowerCase();
-  const matched = hints.filter((h) => lc.includes(h.toLowerCase()));
-  return matched.length ? matched : [];
+function uniqueTop(values: string[], max = 3): string[] {
+  return [...new Set(values.map((v) => v.trim()).filter(Boolean))].slice(0, max);
 }
 
-function grantSizeScore(desired: number, min: number, max: number) {
+function grantSizeScore(desired: number, min: number, max: number): number {
   if (desired >= min && desired <= max) return 1;
-  if (desired < min) return Math.max(0, (desired / min) * 0.6);
-  return Math.max(0, (max / desired) * 0.6);
+  if (desired < min) return Math.max(0, (desired / Math.max(min, 1)) * 0.65);
+  return Math.max(0, (Math.max(max, 1) / desired) * 0.65);
 }
 
 function computeWeights(input: ToolInput) {
   const advanced = input.advanced ?? {};
-  const defaults = {
-    topicSimilarityWeight: 60,
-    geographyWeight: 25,
-    grantSizeWeight: 15,
-  };
-  const topic = advanced.topicSimilarityWeight ?? defaults.topicSimilarityWeight;
-  const geo = advanced.geographyWeight ?? defaults.geographyWeight;
-  const size = advanced.grantSizeWeight ?? defaults.grantSizeWeight;
-  const sum = topic + geo + size;
-  return { topic, geo, size, sum: sum || 1 };
+  const topic = advanced.topicSimilarityWeight ?? 60;
+  const geo = advanced.geographyWeight ?? 25;
+  const size = advanced.grantSizeWeight ?? 15;
+  const sum = topic + geo + size || 1;
+  return { topic, geo, size, sum };
 }
 
-function formatTypicalRange(min: number, max: number) {
-  // Keep it simple; we render currency on the UI.
-  return { min, max, typical: Math.round((min + max) / 2) };
+function buildTypicalRange(medianGrant: number, p75Grant: number, maxGrant: number) {
+  const typical = medianGrant > 0 ? medianGrant : p75Grant > 0 ? p75Grant : maxGrant;
+  const min = Math.max(1000, Math.round((typical || 10000) * 0.6));
+  const maxCandidate = p75Grant > 0 ? p75Grant : maxGrant > 0 ? maxGrant : typical * 1.6;
+  const max = Math.max(min, Math.round(maxCandidate || min));
+  return { min, max, typical: Math.round(typical || (min + max) / 2) };
 }
 
-function selectSampleGrants(
-  desired: number,
-  seed: SamplePastGrant[]
+function pickSampleGrants(
+  grants: Array<{
+    taxYear?: number;
+    amountNum: number;
+    purpose?: string;
+    purposeCategory?: string;
+    recipientCity?: string;
+    recipientState?: string;
+  }>,
+  desiredAmount: number
 ): SamplePastGrant[] {
-  return [...seed]
-    .sort((a, b) => Math.abs(a.amountUsd - desired) - Math.abs(b.amountUsd - desired))
-    .slice(0, 3);
+  return [...grants]
+    .sort((a, b) => Math.abs(a.amountNum - desiredAmount) - Math.abs(b.amountNum - desiredAmount))
+    .slice(0, 3)
+    .map((g, idx) => ({
+      id: `${g.taxYear ?? "y"}-${idx}-${g.amountNum}`,
+      year: g.taxYear ?? new Date().getFullYear(),
+      amountUsd: g.amountNum,
+      grantTitle: g.purpose || "General support grant",
+      purposeCategory: g.purposeCategory || "General",
+      location: [g.recipientCity, g.recipientState].filter(Boolean).join(", ") || "Unknown location",
+    }));
 }
 
-export function getMockRecommendations(input: ToolInput): RecommendationsResponse {
-  const combinedText = `${input.keywords} ${input.missionContext}`.trim();
-  tokenize(combinedText);
+export async function getRecommendationsFromCsv(
+  input: ToolInput
+): Promise<RecommendationsResponse> {
+  const { profiles, grantsByFunderEin } = await getRecommendationData();
+  const query = `${input.keywords} ${input.missionContext}`.toLowerCase();
+  const queryTokens = uniqueTop(tokenize(query), 8);
+  const cityLower = input.city.trim().toLowerCase();
+  const stateUpper = input.state.trim().toUpperCase();
 
   const { topic, geo, size, sum } = computeWeights(input);
 
-  const scored = MOCK_FUNDERS.map((f) => {
-    const topicMatches = pickMatchingHints(f.seedTopicHints, combinedText);
-    const topicRatio = f.seedTopicHints.length
-      ? topicMatches.length / f.seedTopicHints.length
+  const scored = profiles.map((p) => {
+    const corpus = `${p.textCorpus} ${p.topPurposeCategories.join(" ")}`.toLowerCase();
+    const tokenMatches = queryTokens.filter((t) => corpus.includes(t));
+    const topicScore = queryTokens.length
+      ? tokenMatches.length / queryTokens.length
       : 0;
 
-    const geoMatch = f.geography.topStates.includes(input.state) ? 1 : 0.25;
+    const stateMatch = p.topStates.includes(stateUpper) ? 1 : p.funderState === stateUpper ? 0.75 : 0.15;
+    const cityMatch = p.topCities.some((c) => c.toLowerCase().includes(cityLower)) ? 1 : 0;
+    const geoScore = Math.min(1, stateMatch * 0.8 + cityMatch * 0.2);
+
+    const typicalRange = buildTypicalRange(p.medianGrant, p.p75Grant, p.maxGrant);
     const sizeScore = grantSizeScore(
       input.desiredGrantAmount,
-      f.typicalGrantSizeUsd.min,
-      f.typicalGrantSizeUsd.max
+      typicalRange.min,
+      typicalRange.max
     );
 
-    const overall =
-      (topicRatio * topic + geoMatch * geo + sizeScore * size) / sum;
+    const overall = (topicScore * topic + geoScore * geo + sizeScore * size) / sum;
 
-    const normalizedTopic =
-      topicMatches.length > 0
-        ? topicMatches
-            .slice(0, 3)
-            .join(", ")
-            .replace(/\s+/g, " ")
-        : "";
+    const topicText = tokenMatches.length
+      ? `Their profile aligns with themes like ${tokenMatches.slice(0, 3).join(", ")}.`
+      : "Their profile language and purpose categories show potential mission fit.";
+    const geoText = p.topStates.includes(stateUpper)
+      ? `They have a strong history of grants in ${stateUpper}.`
+      : p.topStates.length
+      ? `Their grant history is concentrated in ${p.topStates.slice(0, 3).join(", ")}.`
+      : "Geographic history is available in their profile.";
+    const sizeText = `Your requested amount is ${sizeScore >= 0.75 ? "well aligned" : "within a workable range"} with their typical grant size.`;
 
-    const grantRange = formatTypicalRange(
-      f.typicalGrantSizeUsd.min,
-      f.typicalGrantSizeUsd.max
-    );
-
-    let why = "";
-    const stateText = f.geography.topStates.includes(input.state)
-      ? `They have previously supported work in ${input.state}.`
-      : `Their past giving includes programs across ${f.geography.topStates.join(
-          ", "
-        )}.`;
-
-    if (normalizedTopic) {
-      why = `Your request aligns with themes like ${normalizedTopic}. ${stateText} Your desired grant amount also fits their typical grant range.`;
-    } else {
-      why = `Based on your mission keywords, this funder’s past grant descriptions look like a workable fit. ${stateText} Your desired grant amount also fits their typical grant range.`;
-    }
-
-    // Tone: avoid pretending certainty.
-    if (sizeScore < 0.6) {
-      why += ` Consider emphasizing outcomes and readiness to deliver.`;
-    }
-
-    // Pick sample grants closest to the request.
-    const samplePastGrants = selectSampleGrants(
-      input.desiredGrantAmount,
-      f.samplePastGrantsSeed
-    );
+    const grants = grantsByFunderEin.get(p.funderEin) ?? [];
+    const samplePastGrants = pickSampleGrants(grants, input.desiredGrantAmount);
+    const categories = uniqueTop(p.topPurposeCategories, 4);
 
     const recommendation: FunderRecommendation = {
-      id: f.id,
-      name: f.name,
-      ein: f.ein,
-      typicalGrantSizeUsd: {
-        min: grantRange.min,
-        max: grantRange.max,
-        typical: grantRange.typical,
+      id: p.funderEin || p.funderName,
+      name: p.funderName,
+      ein: p.funderEin,
+      typicalGrantSizeUsd: typicalRange,
+      geography: {
+        focusText: `Top states: ${p.topStates.slice(0, 5).join(", ") || "Not specified"}`,
+        topStates: p.topStates.slice(0, 5),
       },
-      geography: f.geography,
-      purposeCategories: f.purposeCategories,
-      whyRecommended: why,
-      samplePastGrants: samplePastGrants,
-      websiteUrl: f.websiteUrl,
-      outreachNextSteps: f.outreachHooksSeed,
+      purposeCategories: categories.length ? categories : ["General"],
+      whyRecommended: `${topicText} ${geoText} ${sizeText}`,
+      samplePastGrants,
+      websiteUrl: p.website,
+      outreachNextSteps: [
+        "Confirm eligibility, program area, and application timing on the funder website.",
+        "Tailor your outreach message using one relevant past grant example.",
+        "Lead with measurable outcomes and your local context.",
+      ],
     };
 
-    return { recommendation, overall, topicRatio, geoMatch, sizeScore };
+    return { recommendation, overall };
   });
 
-  const sorted = scored
-    .sort((a, b) => b.overall - a.overall)
-    .map((s) => s.recommendation);
-
-  const results = sorted.slice(0, 5);
-  const bestScore = scored.length ? Math.max(...scored.map((s) => s.overall)) : 0;
+  scored.sort((a, b) => b.overall - a.overall);
+  const top = scored.slice(0, 5);
+  const bestScore = top.length ? top[0].overall : 0;
 
   return {
-    results: bestScore >= 0.35 ? results : [],
-    noGoodMatchesFound: bestScore < 0.35,
+    results: bestScore >= 0.15 ? top.map((x) => x.recommendation) : [],
+    noGoodMatchesFound: bestScore < 0.15,
     generatedAt: new Date().toISOString(),
-    dataSource: "mock",
+    dataSource: "csv_profile",
   };
 }
 
