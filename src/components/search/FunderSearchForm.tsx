@@ -84,7 +84,7 @@ export default function FunderSearchForm({
   const [error, setError] = useState<string | null>(null);
 
   const advancedSummary = useMemo(() => {
-    return `Topic ${advanced.topicSimilarityWeight} · Geography ${advanced.geographyWeight} · Grant size ${advanced.grantSizeWeight}`;
+    return `Mission fit ${advanced.topicSimilarityWeight} · Local fit ${advanced.geographyWeight} · Grant size fit ${advanced.grantSizeWeight}`;
   }, [advanced]);
 
   const canSubmit =
@@ -121,7 +121,7 @@ export default function FunderSearchForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5" aria-label="Funder search form">
-      <div className="rounded-2xl border border-zinc-200 bg-white p-5">
+      <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm sm:p-6">
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold tracking-tight text-zinc-900">
             Describe your funding need
@@ -241,12 +241,12 @@ export default function FunderSearchForm({
         </div>
 
         <details
-          className="mt-5 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3"
+          className="mt-5 rounded-2xl border border-zinc-200/90 bg-[var(--surface-warm)]/80 px-4 py-3"
           open={advancedOpen}
           onToggle={(e) => setAdvancedOpen((e.target as HTMLDetailsElement).open)}
         >
           <summary className="cursor-pointer select-none text-sm font-semibold text-zinc-900">
-            Advanced (optional)
+            Fine-tune the match (optional)
             <span className="ml-2 text-xs font-semibold text-zinc-600">
               {advancedSummary}
             </span>
@@ -255,9 +255,9 @@ export default function FunderSearchForm({
           <div className="mt-4 space-y-4">
             <div>
               <label className="block text-sm font-semibold text-zinc-900">
-                Topic similarity
+                How important is mission / topic fit?
                 <div className="text-xs text-zinc-600">
-                  Higher = prioritize mission/keywords alignment
+                  Higher = put more weight on whether the funder’s past giving looks like your issue area
                 </div>
               </label>
               <input
@@ -271,15 +271,15 @@ export default function FunderSearchForm({
                     topicSimilarityWeight: Number(e.target.value),
                   }))
                 }
-                className="mt-2 w-full accent-[#0b3d91]"
+                className="mt-2 w-full accent-[var(--accent)]"
               />
             </div>
 
             <div>
               <label className="block text-sm font-semibold text-zinc-900">
-                Geography
+                How important is local fit?
                 <div className="text-xs text-zinc-600">
-                  Higher = prioritize funders with past activity in your state
+                  Higher = favor funders that already show grant activity in your state
                 </div>
               </label>
               <input
@@ -293,15 +293,15 @@ export default function FunderSearchForm({
                     geographyWeight: Number(e.target.value),
                   }))
                 }
-                className="mt-2 w-full accent-[#0b3d91]"
+                className="mt-2 w-full accent-[var(--accent)]"
               />
             </div>
 
             <div>
               <label className="block text-sm font-semibold text-zinc-900">
-                Grant size
+                How important is grant size fit?
                 <div className="text-xs text-zinc-600">
-                  Higher = prioritize funders whose typical grants match your range
+                  Higher = favor funders whose typical grant sizes are closer to the amount you entered
                 </div>
               </label>
               <input
@@ -315,7 +315,7 @@ export default function FunderSearchForm({
                     grantSizeWeight: Number(e.target.value),
                   }))
                 }
-                className="mt-2 w-full accent-[#0b3d91]"
+                className="mt-2 w-full accent-[var(--accent)]"
               />
             </div>
           </div>
@@ -334,7 +334,7 @@ export default function FunderSearchForm({
           <button
             type="submit"
             disabled={isLoading || !canSubmit}
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-[#0b3d91] px-5 text-sm font-semibold text-white hover:bg-[#0a356e] disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-[#0b3d91]/35 focus:ring-offset-2"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-[var(--accent)] px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/35 focus-visible:ring-offset-2"
           >
             {isLoading ? "Finding funders..." : "Try matching"}
           </button>

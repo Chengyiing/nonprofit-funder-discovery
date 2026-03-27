@@ -3,86 +3,113 @@ import Container from "@/components/layout/Container";
 
 export default function Home() {
   return (
-    <div className="pb-16 pt-10 sm:pt-14">
+    <div className="pb-16 pt-10 sm:pb-20 sm:pt-14">
       <Container>
-        <div className="flex flex-col gap-12">
-          <section className="rounded-3xl border border-zinc-200/90 bg-gradient-to-b from-white via-[#fffdfb] to-[#f8f4f3] px-6 py-11 sm:px-12 sm:py-12">
-            <div className="max-w-3xl space-y-5">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#7d1f2a]/15 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
+        <div className="flex flex-col gap-14 sm:gap-16">
+          <section className="relative overflow-hidden rounded-3xl border border-zinc-200/90 bg-gradient-to-b from-white via-[var(--surface-hero)] to-[#f5f0ef] px-6 py-12 shadow-sm sm:px-12 sm:py-14">
+            <div className="max-w-3xl space-y-6">
+              <p className="inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/15 bg-white/90 px-3 py-1.5 text-xs font-semibold text-zinc-700">
                 Nonprofit-focused decision support
-              </div>
-              <h1 className="text-balance text-4xl font-semibold leading-[1.12] tracking-tight text-zinc-900 sm:text-5xl">
-                Find potential funders that match your mission using public
-                grant history.
+              </p>
+              <h1 className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight text-zinc-900 sm:text-[2.75rem] sm:leading-[1.08]">
+                Find potential funders that match your mission using public grant
+                history.
               </h1>
-              <p className="max-w-2xl text-pretty text-lg leading-8 text-zinc-700">
-                Share a few details about your organization and funding need.
-                You’ll get a ranked shortlist with plain-language explanations
-                and outreach guidance.
+              <p className="max-w-2xl text-pretty text-lg leading-8 text-zinc-600 sm:text-[1.125rem] sm:leading-8">
+                Share a few details about your organization and funding need. You
+                receive a ranked shortlist with plain-language explanations and
+                practical outreach guidance—designed for busy nonprofit teams.
               </p>
 
-              <div className="flex flex-col gap-4 border-t border-zinc-200/80 pt-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col gap-5 border-t border-zinc-200/90 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
                 <Link
                   href="/tool"
-                  className="inline-flex h-11 items-center justify-center rounded-xl bg-[#7d1f2a] px-6 text-sm font-semibold text-white shadow-sm hover:bg-[#5f1620] focus:outline-none focus:ring-2 focus:ring-[#7d1f2a]/30 focus:ring-offset-2"
+                  className="inline-flex h-12 items-center justify-center rounded-xl bg-[var(--accent)] px-7 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--accent-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/35 focus-visible:ring-offset-2"
                 >
                   Start matching
                 </Link>
-                <div className="text-sm text-zinc-600 sm:text-right">
-                  Decision support only. No guarantee of funding.
-                </div>
+                <p className="text-sm leading-relaxed text-zinc-600 sm:max-w-xs sm:text-right">
+                  Decision support only. No guarantee of funding success—always
+                  confirm eligibility with each funder.
+                </p>
               </div>
 
               <div className="flex flex-wrap gap-2 pt-1">
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
-                  Plain-language explanations
-                </span>
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
-                  Built for clarity
-                </span>
-                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700">
-                  Public-data matching
-                </span>
+                {[
+                  "Plain-language explanations",
+                  "Built for clarity",
+                  "Public-data matching",
+                ].map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-full border border-zinc-200/90 bg-white/90 px-3 py-1.5 text-xs font-medium text-zinc-700"
+                  >
+                    {label}
+                  </span>
+                ))}
               </div>
             </div>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900">
-              How it works
-            </h2>
-            <ol className="mt-5 grid gap-5 sm:grid-cols-3">
-              <li className="rounded-2xl border border-zinc-200/90 bg-white p-6">
-                <div className="text-sm font-semibold text-[#7d1f2a]">Step 1</div>
-                <div className="mt-3 text-[22px] font-semibold leading-8 tracking-tight text-zinc-900">
-                  Share your mission and funding need
-                </div>
-                <div className="mt-3 text-base leading-7 text-zinc-700">
-                  Enter a few keywords, a short context, your city/state, and
-                  your desired grant amount.
-                </div>
-              </li>
-              <li className="rounded-2xl border border-zinc-200/90 bg-white p-6">
-                <div className="text-sm font-semibold text-[#7d1f2a]">Step 2</div>
-                <div className="mt-3 text-[22px] font-semibold leading-8 tracking-tight text-zinc-900">
-                  We match you to funders
-                </div>
-                <div className="mt-3 text-base leading-7 text-zinc-700">
-                  Matching uses public grant/funder history and your geography
-                  and budget context to rank recommendations.
-                </div>
-              </li>
-              <li className="rounded-2xl border border-zinc-200/90 bg-white p-6">
-                <div className="text-sm font-semibold text-[#7d1f2a]">Step 3</div>
-                <div className="mt-3 text-[22px] font-semibold leading-8 tracking-tight text-zinc-900">
-                  Review explanations and outreach steps
-                </div>
-                <div className="mt-3 text-base leading-7 text-zinc-700">
-                  Each recommendation includes a plain-language rationale, sample
-                  past grants, and next-step outreach guidance.
-                </div>
-              </li>
+          <section className="scroll-mt-8">
+            <div className="mb-2 max-w-2xl">
+              <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-[1.75rem]">
+                How it works
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                Three straightforward steps—from your inputs to a shortlist you can act on.
+              </p>
+            </div>
+            <ol className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-7">
+              {[
+                {
+                  step: "Step 1",
+                  title: "Share your mission and funding need",
+                  body: "Enter keywords, short context, city and state, and your desired grant amount.",
+                },
+                {
+                  step: "Step 2",
+                  title: "Review ranked funders",
+                  body: "Matching draws on public grant and funder history, geography, and grant-size signals.",
+                },
+                {
+                  step: "Step 3",
+                  title: "Read rationales and next steps",
+                  body: "Each result includes a concise rationale, example past grants, and outreach prompts.",
+                },
+              ].map((item) => (
+                <li
+                  key={item.step}
+                  className="flex h-full flex-col rounded-2xl border border-zinc-200/90 bg-white p-7 shadow-sm"
+                >
+                  <div className="text-xs font-semibold uppercase tracking-wide text-[var(--accent)]">
+                    {item.step}
+                  </div>
+                  <div className="mt-4 text-lg font-semibold leading-snug tracking-tight text-zinc-900">
+                    {item.title}
+                  </div>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-600">
+                    {item.body}
+                  </p>
+                </li>
+              ))}
             </ol>
+          </section>
+
+          <section className="rounded-2xl border border-dashed border-zinc-300/80 bg-zinc-50/80 px-6 py-8 sm:px-8">
+            <p className="max-w-2xl text-sm leading-relaxed text-zinc-600">
+              <strong className="font-medium text-zinc-800">Institutional context.</strong>{" "}
+              Funder Compass is developed in collaboration with Carnegie Mellon
+              University’s Heinz College of Information Systems and Public Policy
+              and KMSG—a public-interest resource intended for careful, real-world
+              use by grant-seeking organizations.
+            </p>
+            <Link
+              href="/contact"
+              className="mt-5 inline-flex text-sm font-semibold text-[var(--accent)] underline-offset-4 hover:text-[var(--accent-hover)] hover:underline"
+            >
+              Contact and team information
+            </Link>
           </section>
         </div>
       </Container>

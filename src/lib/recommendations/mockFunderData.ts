@@ -22,7 +22,7 @@ export const MOCK_FUNDERS: Array<
     ein: "12-3456789",
     typicalGrantSizeUsd: { min: 25000, max: 150000, typical: 75000 },
     geography: {
-      focusText: "Often supports work across the Western US",
+      summaryLine: "Often supports work across the Western US",
       topStates: ["CA", "NV", "OR"],
     },
     purposeCategories: [
@@ -70,7 +70,7 @@ export const MOCK_FUNDERS: Array<
     ein: "98-7654321",
     typicalGrantSizeUsd: { min: 10000, max: 90000, typical: 35000 },
     geography: {
-      focusText: "Frequently funds programs in the Northeast corridor",
+      summaryLine: "Frequently funds programs in the Northeast corridor",
       topStates: ["NY", "NJ", "PA"],
     },
     purposeCategories: ["Health Access", "Housing Stability", "Family Support"],
@@ -120,7 +120,7 @@ export const MOCK_FUNDERS: Array<
     ein: "11-2345678",
     typicalGrantSizeUsd: { min: 20000, max: 250000, typical: 120000 },
     geography: {
-      focusText: "Supports climate resilience projects in multiple regions",
+      summaryLine: "Supports climate resilience projects in multiple regions",
       topStates: ["WA", "CA", "AZ", "CO"],
     },
     purposeCategories: ["Climate Resilience", "Environmental Justice", "Community Planning"],
@@ -171,7 +171,7 @@ export const MOCK_FUNDERS: Array<
     ein: "33-1122334",
     typicalGrantSizeUsd: { min: 15000, max: 120000, typical: 60000 },
     geography: {
-      focusText: "National giving with strong interest in Midwest programs",
+      summaryLine: "National giving with strong interest in Midwest programs",
       topStates: ["IL", "IN", "MI", "OH"],
     },
     purposeCategories: ["Civic Engagement", "Education Equity", "Digital Access"],
@@ -222,7 +222,7 @@ export const MOCK_FUNDERS: Array<
     ein: "44-5566778",
     typicalGrantSizeUsd: { min: 5000, max: 60000, typical: 22000 },
     geography: {
-      focusText: "Often funds youth mentoring and family supports in coastal areas",
+      summaryLine: "Often funds youth mentoring and family supports in coastal areas",
       topStates: ["MA", "CT", "RI", "NY"],
     },
     purposeCategories: ["Youth & Education", "Family Support", "Community Safety"],
@@ -273,7 +273,7 @@ export const MOCK_FUNDERS: Array<
     ein: "77-8899001",
     typicalGrantSizeUsd: { min: 15000, max: 140000, typical: 65000 },
     geography: {
-      focusText: "Supports food systems work in parts of the South and Southwest",
+      summaryLine: "Supports food systems work in parts of the South and Southwest",
       topStates: ["TX", "NM", "AZ", "GA"],
     },
     purposeCategories: ["Food Security", "Public Health", "Community Organizing"],

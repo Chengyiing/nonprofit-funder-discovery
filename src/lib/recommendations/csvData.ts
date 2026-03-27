@@ -5,8 +5,10 @@ import { parse } from "csv-parse/sync";
 type CsvProfileRow = {
   funder_ein?: string;
   funder_name?: string;
+  funder_city?: string;
   funder_state?: string;
   funder_zipcode?: string;
+  share_in_pa?: string;
   website?: string;
   mission?: string;
   num_grants?: string;
@@ -35,8 +37,11 @@ type CsvGrantRow = {
 export type ProfileRecord = {
   funderEin: string;
   funderName: string;
+  funderCity?: string;
   funderState?: string;
   funderZipcode?: string;
+  /** Share of grants to PA recipients when present in source data (0–1) */
+  shareInPa?: number;
   website?: string;
   mission?: string;
   numGrants: number;
@@ -135,11 +140,15 @@ async function loadCsvData(): Promise<RecommendationData> {
       const p75Grant = parseNumber(r.p75_grant);
       const maxGrant = parseNumber(r.max_grant);
 
+      const shareRaw = String(r.share_in_pa ?? "").trim();
+      const shareParsed = Number(shareRaw);
       const profile: ProfileRecord = {
         funderEin: ein,
         funderName: name,
+        funderCity: String(r.funder_city ?? "").trim() || undefined,
         funderState: String(r.funder_state ?? "").trim().toUpperCase() || undefined,
         funderZipcode: String(r.funder_zipcode ?? "").trim() || undefined,
+        shareInPa: Number.isFinite(shareParsed) ? shareParsed : undefined,
         website: normalizeWebsite(r.website),
         mission: String(r.mission ?? "").trim() || undefined,
         numGrants: Math.max(0, Math.round(parseNumber(r.num_grants))),

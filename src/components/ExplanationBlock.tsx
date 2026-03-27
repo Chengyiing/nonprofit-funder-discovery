@@ -12,7 +12,7 @@ export default function ExplanationBlock({
       {title ? (
         <div className="text-sm font-semibold text-zinc-900">{title}</div>
       ) : null}
-      <div className="mt-2 text-sm leading-6 text-zinc-700">
+      <div className="mt-2 text-sm leading-relaxed text-zinc-700">
         {children}
       </div>
     </section>

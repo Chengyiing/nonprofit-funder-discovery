@@ -18,20 +18,32 @@ export type SamplePastGrant = {
   id: string;
   year: number;
   amountUsd: number;
+  /** Primary purpose / description text from grant records */
   grantTitle: string;
   purposeCategory: string;
+  /** @deprecated Prefer recipientCity, recipientState, recipientName */
   location: string;
+  recipientName?: string;
+  recipientCity?: string;
+  recipientState?: string;
 };
 
 export type FundedGeography = {
-  focusText: string; // e.g. "Often funds work across California"
-  topStates: string[]; // state abbreviations
+  /** Short, plain-language read on where this funder’s recorded grants tend to go */
+  summaryLine: string;
+  topStates: string[]; // state abbreviations (supporting detail)
 };
 
 export type FunderRecommendation = {
   id: string;
   name: string;
   ein?: string;
+  /** Funder headquarters from profile data, when present */
+  headquarters?: {
+    city?: string;
+    state?: string;
+    zip?: string;
+  };
   typicalGrantSizeUsd: {
     min: number;
     max: number;

@@ -84,22 +84,23 @@ export default function ToolPageClient() {
   }
 
   return (
-    <div className="pb-16 pt-6 sm:pt-10">
+    <div className="pb-16 pt-6 sm:pb-20 sm:pt-10">
       <Container>
-        <div className="flex flex-col gap-8">
-          <section className="rounded-3xl border border-zinc-200 bg-gradient-to-b from-white via-white to-zinc-50 p-6 sm:p-8">
-            <div className="space-y-3">
-            <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl">
-              Match funders to your nonprofit’s funding need
-            </h1>
-            <p className="text-base leading-7 text-zinc-700">
-              Enter a few details. You’ll get a ranked shortlist with clear
-              explanations, example past grants, and outreach next steps.
-            </p>
+        <div className="flex flex-col gap-10">
+          <section className="rounded-3xl border border-zinc-200/90 bg-gradient-to-b from-white via-[var(--surface-hero)] to-zinc-50/90 p-6 shadow-sm sm:p-9">
+            <div className="max-w-3xl space-y-4">
+              <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-[2rem] sm:leading-tight">
+                Match funders to your nonprofit’s funding need
+              </h1>
+              <p className="text-base leading-relaxed text-zinc-600">
+                Enter a few details. You’ll get a ranked shortlist with clear
+                explanations, example past grants, and outreach next steps.
+              </p>
 
-            <div className="text-sm text-zinc-600">
-              No guarantee of funding. Always verify eligibility and guidelines on the funder’s website.
-            </div>
+              <p className="text-sm leading-relaxed text-zinc-600">
+                No guarantee of funding. Always verify eligibility and guidelines on each
+                funder’s website.
+              </p>
             </div>
           </section>
 
@@ -161,7 +162,7 @@ export default function ToolPageClient() {
                   No good matches found (yet)
                 </div>
                 <p className="mt-2 text-sm leading-6 text-zinc-700">
-                  Try adjusting your keywords and mission context, or open Advanced settings to place more emphasis on topic similarity or grant size.
+                  Try adjusting your keywords and mission context, or open “Fine-tune the match” to stress mission fit, local fit, or grant size fit.
                 </p>
                 <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
                   Suggestions:

@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
+/* Institutional accent: muted burgundy (CMU-inspired), primary actions only */
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
+  --accent: #7d1f2a;
+  --accent-hover: #5f1620;
+  --surface-warm: #fbfaf9;
+  --surface-hero: #fffdfb;
 }
 
 @theme inline {
@@ -10,6 +15,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
 }
 
 /* Keep a consistent, institutional light theme.
@@ -31,3 +38,7 @@ a {
   color: inherit;
 }
 
+/* Product name in header: institutional serif, distinct from UI sans-serif */
+.font-brand-name {
+  font-family: "Times New Roman", Times, "Liberation Serif", "DejaVu Serif", serif;
+}
