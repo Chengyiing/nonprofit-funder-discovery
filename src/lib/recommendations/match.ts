@@ -1,4 +1,5 @@
 import { getRecommendationData } from "./csvData";
+import { computeTopicScores } from "./embeddingMatch";
 import type {
   FunderRecommendation,
   RecommendationsResponse,
@@ -413,22 +414,18 @@ function pickSampleGrants(
 }
 
 export async function getRecommendationsFromCsv(
-  input: ToolInput
+  input: ToolInput,
+  queryEmbedding: number[]
 ): Promise<RecommendationsResponse> {
   const { profiles, grantsByFunderEin } = await getRecommendationData();
-  const query = `${input.keywords} ${input.missionContext}`.toLowerCase();
-  const rawTokens = uniqueTop(tokenize(query), 14);
-  const meaningfulTokens = rawTokens.filter((t) => !TOPIC_STOPWORDS.has(t));
-  const queryTokens = (meaningfulTokens.length ? meaningfulTokens : rawTokens).slice(0, 8);
   const cityLower = input.city.trim().toLowerCase();
   const stateUpper = input.state.trim().toUpperCase();
 
   const { topic, geo, size, sum } = computeWeights(input);
+  const topicScores = computeTopicScores(queryEmbedding);
 
   const scored = profiles.map((p) => {
-    const corpus = `${p.textCorpus} ${p.topPurposeCategories.join(" ")}`.toLowerCase();
-    const tokenMatches = queryTokens.filter((t) => corpus.includes(t));
-    const topicScore = queryTokens.length ? tokenMatches.length / queryTokens.length : 0;
+    const topicScore = topicScores.get(p.funderEin) ?? 0;
 
     const stateMatch = p.topStates.includes(stateUpper)
       ? 1
@@ -447,7 +444,7 @@ export async function getRecommendationsFromCsv(
     const samplePastGrants = pickSampleGrants(grants, input.desiredGrantAmount);
     const categories = uniqueTop(p.topPurposeCategories, 4);
 
-    const topicSentence = buildTopicSentence(tokenMatches);
+    const topicSentence = buildTopicSentence(categories);
     const geoSentence = geographyFitSentence(p.topStates, stateUpper, p.shareInPa);
     const sizeSentence = buildSizeSentence(
       input.desiredGrantAmount,

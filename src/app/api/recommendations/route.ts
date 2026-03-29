@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
+import OpenAI from "openai";
 import { toolInputSchema } from "@/lib/recommendations/inputSchema";
 import { getRecommendationsFromCsv } from "@/lib/recommendations/match";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: Request) {
   let body: unknown = null;
@@ -27,7 +30,14 @@ export async function POST(req: Request) {
     );
   }
 
-  const response = await getRecommendationsFromCsv(parsed.data);
+  const queryText = `${parsed.data.keywords} ${parsed.data.missionContext}`;
+  const embeddingResponse = await openai.embeddings.create({
+    model: "text-embedding-3-small",
+    input: queryText.slice(0, 8000),
+  });
+  const queryEmbedding = embeddingResponse.data[0].embedding;
+
+  const response = await getRecommendationsFromCsv(parsed.data, queryEmbedding);
   return NextResponse.json(response, { status: 200 });
 }
 

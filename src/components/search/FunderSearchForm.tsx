@@ -72,7 +72,7 @@ export default function FunderSearchForm({
   const [keywords, setKeywords] = useState("");
   const [missionContext, setMissionContext] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("CA");
+  const [state, setState] = useState("PA");
   const [desiredGrantAmount, setDesiredGrantAmount] = useState<number | "">("");
   const [annualOperatingBudget, setAnnualOperatingBudget] = useState<
     number | ""
@@ -172,7 +172,7 @@ export default function FunderSearchForm({
               onChange={(e) => setCity(e.target.value)}
               type="text"
               name="city"
-              placeholder="e.g., San Francisco"
+              placeholder="e.g., Pittsburgh"
               className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
               aria-required="true"
             />
