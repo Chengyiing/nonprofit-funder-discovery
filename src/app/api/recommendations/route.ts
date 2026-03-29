@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { toolInputSchema } from "@/lib/recommendations/inputSchema";
 import { getRecommendationsFromCsv } from "@/lib/recommendations/match";
+import { generateExplanation } from "@/lib/recommendations/generateExplanation";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -38,6 +39,17 @@ export async function POST(req: Request) {
   const queryEmbedding = embeddingResponse.data[0].embedding;
 
   const response = await getRecommendationsFromCsv(parsed.data, queryEmbedding);
+
+  if (!response.noGoodMatchesFound && response.results.length > 0) {
+    const enhanced = await Promise.all(
+      response.results.map(async (funder) => ({
+        ...funder,
+        whyRecommended: await generateExplanation(parsed.data, funder),
+      }))
+    );
+    response.results = enhanced;
+  }
+
   return NextResponse.json(response, { status: 200 });
 }
 
