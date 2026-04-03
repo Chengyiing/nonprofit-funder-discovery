@@ -2,7 +2,7 @@
  * CMU: use public/cmu.png. KMSG: public/mksg.png (update KMSG_LOGO_SRC if renamed).
  */
 export const CMU_LOGO_SRC = "/cmu.png";
-export const KMSG_LOGO_SRC = "/mksg.png";
+export const KMSG_LOGO_SRC = "/kmsg.png";
 
 export function PartnerLogosRow({ className = "" }: { className?: string }) {
   return (
