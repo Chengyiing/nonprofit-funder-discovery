@@ -62,6 +62,9 @@ const defaultAdvanced: ToolAdvancedSettings = {
   grantSizeWeight: 15,
 };
 
+const inputClass =
+  "mt-2 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--foreground-muted)]/65 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/25";
+
 export default function FunderSearchForm({
   onSearch,
   isLoading,
@@ -120,145 +123,163 @@ export default function FunderSearchForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" aria-label="Funder search form">
-      <div className="rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm sm:p-6">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-lg font-semibold tracking-tight text-zinc-900">
+    <form onSubmit={handleSubmit} className="space-y-0" aria-label="Funder search form">
+      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm sm:p-8">
+        <div className="flex flex-col gap-1 border-b border-[var(--border-subtle)] pb-6">
+          <h2 className="text-xl font-semibold tracking-tight text-[var(--foreground)]">
             Describe your funding need
           </h2>
-          <p className="text-sm text-zinc-600">
+          <p className="text-sm leading-relaxed text-[var(--foreground-muted)]">
             Keep it simple. You can add more detail later.
           </p>
         </div>
 
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <label className="block text-sm font-semibold text-zinc-900">
-              Issue area / keywords
-              <div className="mt-1 text-xs font-normal text-zinc-600">
-                Examples: “youth mentoring”, “food security”, “housing stability”
-              </div>
-              <input
-                value={keywords}
-                onChange={(e) => setKeywords(e.target.value)}
-                type="text"
-                name="keywords"
-                placeholder="e.g., youth mentoring, after-school learning"
-                className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
-                aria-required="true"
-              />
-            </label>
-          </div>
-
-          <div className="sm:col-span-2">
-            <label className="block text-sm font-semibold text-zinc-900">
-              Short mission / context
-              <textarea
-                value={missionContext}
-                onChange={(e) => setMissionContext(e.target.value)}
-                name="missionContext"
-                placeholder="Briefly describe your mission, target population, and what the grant will fund."
-                rows={4}
-                className="mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
-                aria-required="true"
-              />
-            </label>
-          </div>
-
-          <label className="block text-sm font-semibold text-zinc-900">
-            City
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              type="text"
-              name="city"
-              placeholder="e.g., Pittsburgh"
-              className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
-              aria-required="true"
-            />
-          </label>
-
-          <label className="block text-sm font-semibold text-zinc-900">
-            State
-            <select
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              name="state"
-              className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400"
-              aria-required="true"
-            >
-              {US_STATES.map((st) => (
-                <option key={st.abbr} value={st.abbr}>
-                  {st.name} ({st.abbr})
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="block text-sm font-semibold text-zinc-900">
-            Desired grant amount (USD)
-            <input
-              value={desiredGrantAmount}
-              onChange={(e) => {
-                const v = e.target.value;
-                if (v === "") return setDesiredGrantAmount("");
-                const num = Number(v);
-                setDesiredGrantAmount(Number.isFinite(num) ? num : "");
-              }}
-              type="number"
-              inputMode="numeric"
-              name="desiredGrantAmount"
-              min={1000}
-              step={1000}
-              placeholder="e.g., 50000"
-              className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
-              aria-required="true"
-            />
-          </label>
-
-          <label className="block text-sm font-semibold text-zinc-900">
-            Annual operating budget (optional)
-            <input
-              value={annualOperatingBudget}
-              onChange={(e) => {
-                const v = e.target.value;
-                if (v === "") return setAnnualOperatingBudget("");
-                const num = Number(v);
-                setAnnualOperatingBudget(Number.isFinite(num) ? num : "");
-              }}
-              type="number"
-              inputMode="numeric"
-              name="annualOperatingBudget"
-              min={0}
-              step={1000}
-              placeholder="e.g., 250000"
-              className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-400"
-            />
-            <div className="mt-1 text-xs font-normal text-zinc-600">
-              Helps matching when available, but not required.
+        <div className="mt-8 space-y-10">
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
+                Issue area / keywords
+                <span className="mt-1 block text-xs font-normal leading-snug text-[var(--foreground-muted)]">
+                  Examples: “youth mentoring”, “food security”, “housing stability”
+                </span>
+                <input
+                  value={keywords}
+                  onChange={(e) => setKeywords(e.target.value)}
+                  type="text"
+                  name="keywords"
+                  placeholder="e.g., youth mentoring, after-school learning"
+                  className={inputClass}
+                  aria-required="true"
+                />
+              </label>
             </div>
-          </label>
+
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
+                Short mission / context
+                <textarea
+                  value={missionContext}
+                  onChange={(e) => setMissionContext(e.target.value)}
+                  name="missionContext"
+                  placeholder="Briefly describe your mission, target population, and what the grant will fund."
+                  rows={4}
+                  className={`${inputClass} resize-y`}
+                  aria-required="true"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
+              Where you work
+            </p>
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
+                City
+                <input
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  type="text"
+                  name="city"
+                  placeholder="e.g., Pittsburgh"
+                  className={inputClass}
+                  aria-required="true"
+                />
+              </label>
+
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
+                State
+                <select
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  name="state"
+                  className={inputClass}
+                  aria-required="true"
+                >
+                  {US_STATES.map((st) => (
+                    <option key={st.abbr} value={st.abbr}>
+                      {st.name} ({st.abbr})
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
+              Grant size
+            </p>
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
+                Desired grant amount (USD)
+                <input
+                  value={desiredGrantAmount}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (v === "") return setDesiredGrantAmount("");
+                    const num = Number(v);
+                    setDesiredGrantAmount(Number.isFinite(num) ? num : "");
+                  }}
+                  type="number"
+                  inputMode="numeric"
+                  name="desiredGrantAmount"
+                  min={1000}
+                  step={1000}
+                  placeholder="e.g., 50000"
+                  className={inputClass}
+                  aria-required="true"
+                />
+              </label>
+
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
+                Annual operating budget (optional)
+                <input
+                  value={annualOperatingBudget}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (v === "") return setAnnualOperatingBudget("");
+                    const num = Number(v);
+                    setAnnualOperatingBudget(Number.isFinite(num) ? num : "");
+                  }}
+                  type="number"
+                  inputMode="numeric"
+                  name="annualOperatingBudget"
+                  min={0}
+                  step={1000}
+                  placeholder="e.g., 250000"
+                  className={inputClass}
+                />
+                <span className="mt-1.5 block text-xs font-normal text-[var(--foreground-muted)]">
+                  Helps matching when available, but not required.
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
 
         <details
-          className="mt-5 rounded-2xl border border-zinc-200/90 bg-[var(--surface-warm)]/80 px-4 py-3"
+          className="mt-10 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-muted)]/60 px-5 py-4"
           open={advancedOpen}
           onToggle={(e) => setAdvancedOpen((e.target as HTMLDetailsElement).open)}
         >
-          <summary className="cursor-pointer select-none text-sm font-semibold text-zinc-900">
-            Fine-tune the match (optional)
-            <span className="ml-2 text-xs font-semibold text-zinc-600">
-              {advancedSummary}
+          <summary className="cursor-pointer list-none text-sm font-semibold text-[var(--foreground)] [&::-webkit-details-marker]:hidden">
+            <span className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <span>Fine-tune the match (optional)</span>
+              <span className="text-xs font-normal text-[var(--foreground-muted)]">
+                {advancedSummary}
+              </span>
             </span>
           </summary>
 
-          <div className="mt-4 space-y-4">
+          <div className="mt-6 space-y-6 border-t border-[var(--border-subtle)] pt-6">
             <div>
-              <label className="block text-sm font-semibold text-zinc-900">
-                How important is mission / topic fit?
-                <div className="text-xs text-zinc-600">
-                  Higher = put more weight on whether the funder’s past giving looks like your issue area
-                </div>
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
+                How important is mission fit?
+                <span className="mt-1 block text-xs font-normal text-[var(--foreground-muted)]">
+                  Higher = put more emphasis on whether the funder’s past giving looks like your issue area.
+                </span>
               </label>
               <input
                 type="range"
@@ -271,16 +292,16 @@ export default function FunderSearchForm({
                     topicSimilarityWeight: Number(e.target.value),
                   }))
                 }
-                className="mt-2 w-full accent-[var(--accent)]"
+                className="mt-3 w-full accent-[var(--accent)]"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-900">
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
                 How important is local fit?
-                <div className="text-xs text-zinc-600">
-                  Higher = favor funders that already show grant activity in your state
-                </div>
+                <span className="mt-1 block text-xs font-normal text-[var(--foreground-muted)]">
+                  Higher = favor funders that already show grant activity in your state.
+                </span>
               </label>
               <input
                 type="range"
@@ -293,16 +314,16 @@ export default function FunderSearchForm({
                     geographyWeight: Number(e.target.value),
                   }))
                 }
-                className="mt-2 w-full accent-[var(--accent)]"
+                className="mt-3 w-full accent-[var(--accent)]"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-900">
+              <label className="block text-sm font-semibold text-[var(--foreground)]">
                 How important is grant size fit?
-                <div className="text-xs text-zinc-600">
-                  Higher = favor funders whose typical grant sizes are closer to the amount you entered
-                </div>
+                <span className="mt-1 block text-xs font-normal text-[var(--foreground-muted)]">
+                  Higher = favor funders whose typical grant sizes are closer to the amount you entered.
+                </span>
               </label>
               <input
                 type="range"
@@ -315,26 +336,26 @@ export default function FunderSearchForm({
                     grantSizeWeight: Number(e.target.value),
                   }))
                 }
-                className="mt-2 w-full accent-[var(--accent)]"
+                className="mt-3 w-full accent-[var(--accent)]"
               />
             </div>
           </div>
         </details>
 
         {error ? (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <div className="mt-6 rounded-xl border border-red-200/90 bg-red-50/90 p-4 text-sm text-red-900">
             {error}
           </div>
         ) : null}
 
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-xs text-zinc-500">
+        <div className="mt-8 flex flex-col gap-4 border-t border-[var(--border-subtle)] pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="order-2 text-xs leading-relaxed text-[var(--foreground-muted)] sm:order-1 sm:max-w-md">
             We’ll use your inputs to find a ranked shortlist and clear explanations.
-          </div>
+          </p>
           <button
             type="submit"
             disabled={isLoading || !canSubmit}
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-[var(--accent)] px-5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/35 focus-visible:ring-offset-2"
+            className="order-1 inline-flex h-11 min-w-[11rem] items-center justify-center rounded-xl bg-[var(--accent)] px-6 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] sm:order-2"
           >
             {isLoading ? "Finding funders..." : "Try matching"}
           </button>
@@ -343,4 +364,3 @@ export default function FunderSearchForm({
     </form>
   );
 }
-

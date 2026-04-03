@@ -1,44 +1,71 @@
 @import "tailwindcss";
 
-/* Institutional accent: muted burgundy (CMU-inspired), primary actions only */
+/* Funder Compass — civic-tech design tokens (disciplined blue, calm neutrals) */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --accent: #7d1f2a;
-  --accent-hover: #5f1620;
-  --surface-warm: #fbfaf9;
-  --surface-hero: #fffdfb;
+  /* Client palette */
+  --brand-primary: #29388e;
+  --brand-secondary: #7fc8f8;
+  --brand-highlight: #f3ee53; /* brand palette; avoid loud UI — use --warm-accent */
+  --brand-bg: #fcfdff;
+  --brand-orange: #ff623b;
+  --brand-pink: #f44bc4;
+
+  /* Semantic surfaces */
+  --background: var(--brand-bg);
+  --foreground: #141829;
+  --foreground-secondary: #454c64;
+  --foreground-muted: #5c6378;
+  --border: #d5deeb;
+  --border-subtle: #e8edf5;
+  --surface: #ffffff;
+  --surface-muted: #f2f5fa;
+  --surface-hero: #f5f8fc;
+  --surface-footer: #e8edf5;
+  /* Kept name for minimal churn; value is cool neutral (not warm) */
+  --surface-warm: #f3f6fb;
+  --ring: rgba(41, 56, 142, 0.32);
+  --ring-offset: var(--background);
+
+  /* Primary actions & links = deep blue */
+  --accent: var(--brand-primary);
+  --accent-hover: #1f2868;
+  --accent-secondary: var(--brand-secondary);
+  --link: var(--brand-primary);
+  --link-hover: var(--accent-hover);
+
+  /* Restrained warm accent: muted editorial gold (sparing use only) */
+  --warm-accent: #a89872;
+  --warm-accent-soft: color-mix(in srgb, var(--warm-accent) 28%, transparent);
+
+  /* Legacy name: map to muted warm for any remaining references */
+  --highlight: var(--warm-accent);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted-foreground: var(--foreground-muted);
+  --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-/* Keep a consistent, institutional light theme.
-   Many nonprofit/civic tools prefer readability over system dark-mode. */
+/* Institutional light theme: readability first */
 
 body {
   background: var(--background) !important;
   color: var(--foreground) !important;
-  font-family:
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI",
+    Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: inherit;
-}
+/* Product name: distinct serif anchor; color from components */
 
-/* Product name in header: institutional serif, distinct from UI sans-serif */
 .font-brand-name {
-  font-family: "Times New Roman", Times, "Liberation Serif", "DejaVu Serif", serif;
+  font-family:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", Times,
+    "Liberation Serif", "DejaVu Serif", serif;
+  font-feature-settings: "kern" 1, "liga" 1;
 }

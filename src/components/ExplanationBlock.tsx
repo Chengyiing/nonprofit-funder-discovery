@@ -8,14 +8,13 @@ export default function ExplanationBlock({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+    <section className="rounded-xl border border-[var(--border)] bg-[var(--surface-muted)]/80 p-5">
       {title ? (
-        <div className="text-sm font-semibold text-zinc-900">{title}</div>
+        <div className="text-sm font-semibold text-[var(--foreground)]">{title}</div>
       ) : null}
-      <div className="mt-2 text-sm leading-relaxed text-zinc-700">
+      <div className="mt-2 text-sm leading-relaxed text-[var(--foreground-secondary)]">
         {children}
       </div>
     </section>
   );
 }
-

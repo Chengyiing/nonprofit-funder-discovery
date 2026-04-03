@@ -17,13 +17,13 @@ function ResultsSkeleton() {
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
+          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm"
         >
-          <div className="h-4 w-1/3 rounded bg-zinc-200" />
-          <div className="mt-3 h-6 w-2/3 rounded bg-zinc-200" />
-          <div className="mt-4 h-4 w-5/6 rounded bg-zinc-200" />
-          <div className="mt-3 h-4 w-4/6 rounded bg-zinc-200" />
-          <div className="mt-6 h-36 w-full rounded-xl bg-zinc-100" />
+          <div className="h-4 w-1/3 rounded bg-[var(--border)]" />
+          <div className="mt-3 h-6 w-2/3 rounded bg-[var(--border)]" />
+          <div className="mt-4 h-4 w-5/6 rounded bg-[var(--border-subtle)]" />
+          <div className="mt-3 h-4 w-4/6 rounded bg-[var(--border-subtle)]" />
+          <div className="mt-6 h-36 w-full rounded-xl bg-[var(--surface-muted)]" />
         </div>
       ))}
     </div>
@@ -84,20 +84,20 @@ export default function ToolPageClient() {
   }
 
   return (
-    <div className="pb-16 pt-6 sm:pb-20 sm:pt-10">
+    <div className="pb-16 pt-8 sm:pb-24 sm:pt-12">
       <Container>
-        <div className="flex flex-col gap-10">
-          <section className="rounded-3xl border border-zinc-200/90 bg-gradient-to-b from-white via-[var(--surface-hero)] to-zinc-50/90 p-6 shadow-sm sm:p-9">
-            <div className="max-w-3xl space-y-4">
-              <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-[2rem] sm:leading-tight">
+        <div className="flex flex-col gap-12">
+          <section className="rounded-3xl border border-[var(--border)] bg-gradient-to-b from-[var(--surface)] via-[var(--surface-hero)] to-[var(--surface-muted)] p-7 shadow-sm sm:p-10">
+            <div className="max-w-3xl space-y-5">
+              <h1 className="text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-[2.125rem] sm:leading-tight">
                 Match funders to your nonprofit’s funding need
               </h1>
-              <p className="text-base leading-relaxed text-zinc-600">
+              <p className="text-base leading-relaxed text-[var(--foreground-secondary)]">
                 Enter a few details. You’ll get a ranked shortlist with clear
                 explanations, example past grants, and outreach next steps.
               </p>
 
-              <p className="text-sm leading-relaxed text-zinc-600">
+              <p className="text-sm leading-relaxed text-[var(--foreground-muted)]">
                 No guarantee of funding. Always verify eligibility and guidelines on each
                 funder’s website.
               </p>
@@ -106,22 +106,22 @@ export default function ToolPageClient() {
 
           <FunderSearchForm onSearch={handleSearch} isLoading={loading} />
 
-          <section aria-label="Funder recommendations">
+          <section aria-label="Funder recommendations" className="space-y-8">
             {loading ? (
               <ResultsSkeleton />
             ) : error ? (
-              <div className="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-800">
+              <div className="rounded-2xl border border-red-200/90 bg-red-50 p-5 text-sm text-red-900">
                 {error}
               </div>
             ) : results.length > 0 ? (
-              <div className="space-y-5">
+              <div className="space-y-8">
                 <ExplanationBlock title="How to use these results">
                   Treat recommendations as decision support. Start your outreach
                   with the top-ranked funders, review eligibility, and adjust
                   your messaging to match the funder’s past work.
                 </ExplanationBlock>
 
-                <ol className="space-y-4" aria-label="Ranked funders">
+                <ol className="space-y-5" aria-label="Ranked funders">
                   {results.map((r, idx) => (
                     <li key={r.id}>
                       <FunderResultCard result={r} rank={idx + 1} />
@@ -129,11 +129,11 @@ export default function ToolPageClient() {
                   ))}
                 </ol>
 
-                <div className="rounded-2xl border border-zinc-200 bg-white p-5">
-                  <div className="text-sm font-semibold text-zinc-900">
+                <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
+                  <div className="text-sm font-semibold text-[var(--foreground)]">
                     Next-step outreach guidance
                   </div>
-                  <ul className="mt-3 list-disc pl-5 text-sm text-zinc-700">
+                  <ul className="mt-3 list-disc pl-5 text-sm leading-relaxed text-[var(--foreground-secondary)]">
                     <li className="mb-1">
                       Write a short inquiry that states your mission, geography,
                       and desired amount.
@@ -148,7 +148,7 @@ export default function ToolPageClient() {
                     </li>
                   </ul>
 
-                  <div className="mt-3 text-xs text-zinc-500">
+                  <div className="mt-4 text-xs text-[var(--foreground-muted)]">
                     {summaryLine}
                     {dataSource === "csv_profile"
                       ? " Recommendations are generated from funder_profile_final.csv and final_grants_clean.csv."
@@ -157,14 +157,14 @@ export default function ToolPageClient() {
                 </div>
               </div>
             ) : noGoodMatchesFound ? (
-              <div className="rounded-2xl border border-zinc-200 bg-white p-6">
-                <div className="text-lg font-semibold text-zinc-900">
+              <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-7 shadow-sm">
+                <div className="text-lg font-semibold text-[var(--foreground)]">
                   No good matches found (yet)
                 </div>
-                <p className="mt-2 text-sm leading-6 text-zinc-700">
+                <p className="mt-2 text-sm leading-6 text-[var(--foreground-secondary)]">
                   Try adjusting your keywords and mission context, or open “Fine-tune the match” to stress mission fit, local fit, or grant size fit.
                 </p>
-                <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
+                <div className="mt-5 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-muted)]/80 p-5 text-sm text-[var(--foreground-secondary)]">
                   Suggestions:
                   <ul className="mt-2 list-disc pl-5">
                     <li className="mb-1">Use 3–6 keywords (e.g., “housing stability”, “case management”).</li>
@@ -172,7 +172,7 @@ export default function ToolPageClient() {
                     <li className="mb-1">Check the grant amount is realistic for your request.</li>
                   </ul>
                 </div>
-                <div className="mt-3 text-xs text-zinc-500">
+                <div className="mt-4 text-xs text-[var(--foreground-muted)]">
                   Try broadening issue keywords and adding more mission context for better matches.
                 </div>
               </div>
@@ -183,4 +183,3 @@ export default function ToolPageClient() {
     </div>
   );
 }
-

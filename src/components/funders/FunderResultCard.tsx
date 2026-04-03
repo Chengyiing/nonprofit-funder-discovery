@@ -28,21 +28,21 @@ export default function FunderResultCard({
   const hqLine = result.headquarters ? formatHeadquarters(result.headquarters) : null;
 
   return (
-    <article className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm ring-1 ring-[var(--border-subtle)]/40">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0 flex-1">
-            <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
               Rank #{rank}
             </div>
-            <h3 className="mt-1 text-xl font-semibold leading-snug tracking-tight text-zinc-900 sm:text-2xl">
+            <h3 className="mt-2 text-xl font-semibold leading-snug tracking-tight text-[var(--foreground)] sm:text-2xl">
               {result.name}
             </h3>
             {hqLine ? (
-              <div className="mt-2 text-sm text-zinc-600">{hqLine}</div>
+              <div className="mt-2 text-sm text-[var(--foreground-secondary)]">{hqLine}</div>
             ) : null}
             {result.ein ? (
-              <div className="mt-1.5 text-xs text-zinc-500">EIN {result.ein}</div>
+              <div className="mt-1.5 text-xs text-[var(--foreground-muted)]">EIN {result.ein}</div>
             ) : null}
           </div>
 
@@ -52,7 +52,7 @@ export default function FunderResultCard({
                 href={result.websiteUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-xl border border-zinc-300/90 bg-white px-4 text-sm font-semibold text-[var(--accent)] transition-colors hover:border-[var(--accent)]/35 hover:bg-[var(--surface-warm)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 focus-visible:ring-offset-2"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-[var(--accent)] bg-[var(--surface)] px-4 text-sm font-semibold text-[var(--accent)] transition-colors hover:bg-[var(--surface-muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
               >
                 Visit website
               </a>
@@ -60,27 +60,27 @@ export default function FunderResultCard({
           </div>
         </div>
 
-        <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3">
-          <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+        <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-muted)]/80 px-4 py-3.5">
+          <div className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
             Typical grant size
           </div>
-          <div className="mt-1 text-lg font-semibold text-zinc-900">
+          <div className="mt-1.5 text-lg font-semibold tabular-nums text-[var(--foreground)]">
             {formatMoney(typicalGrantSizeUsd.min)}–{formatMoney(typicalGrantSizeUsd.max)}
             {typicalGrantSizeUsd.typical ? (
-              <span className="ml-2 text-base font-normal text-zinc-600">
+              <span className="ml-2 text-base font-normal text-[var(--foreground-secondary)]">
                 (median near {formatMoney(typicalGrantSizeUsd.typical)})
               </span>
             ) : null}
           </div>
         </div>
 
-        <div className="rounded-xl border border-dashed border-zinc-200 bg-white px-3 py-3">
-          <p className="text-sm font-medium leading-relaxed text-zinc-800">
+        <div className="rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] px-4 py-4">
+          <p className="text-sm font-medium leading-relaxed text-[var(--foreground)]">
             {geography.summaryLine}
           </p>
           {geography.topStates.length ? (
-            <div className="mt-3">
-              <div className="text-xs font-medium text-zinc-500">
+            <div className="mt-4">
+              <div className="text-xs font-medium text-[var(--foreground-muted)]">
                 Where past grants went most often (in this dataset)
               </div>
               <div className="mt-2 flex flex-wrap gap-2" role="list" aria-label="Top grant destination states">
@@ -88,7 +88,7 @@ export default function FunderResultCard({
                   <span
                     key={st}
                     role="listitem"
-                    className="rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-0.5 text-xs font-semibold text-zinc-700"
+                    className="rounded-full border border-[var(--border-subtle)] bg-[var(--surface-muted)]/90 px-2.5 py-0.5 text-xs font-semibold text-[var(--foreground-secondary)]"
                   >
                     {st}
                   </span>
@@ -102,7 +102,7 @@ export default function FunderResultCard({
           {result.purposeCategories.map((cat) => (
             <span
               key={cat}
-              className="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700"
+              className="rounded-full border border-[var(--border-subtle)] bg-[var(--surface-muted)]/70 px-3 py-1 text-xs font-semibold text-[var(--foreground-secondary)]"
             >
               {cat}
             </span>
@@ -113,26 +113,26 @@ export default function FunderResultCard({
           {result.whyRecommended}
         </ExplanationBlock>
 
-        <div className="space-y-3">
+        <div className="space-y-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-muted)]/40 p-5">
           <div>
-            <div className="text-sm font-semibold text-zinc-900">A few past grants</div>
-            <div className="mt-1 text-xs text-zinc-600">
+            <div className="text-sm font-semibold text-[var(--foreground)]">A few past grants</div>
+            <div className="mt-1 text-xs text-[var(--foreground-muted)]">
               Example grants from public records.
             </div>
           </div>
           <SampleGrantList grants={result.samplePastGrants} />
         </div>
 
-        <div className="space-y-2">
-          <div className="text-sm font-semibold text-zinc-900">Suggested outreach next steps</div>
-          <ul className="list-disc pl-5 text-sm text-zinc-700">
+        <div className="space-y-2 border-t border-[var(--border-subtle)] pt-5">
+          <div className="text-sm font-semibold text-[var(--foreground)]">Suggested outreach next steps</div>
+          <ul className="list-disc pl-5 text-sm leading-relaxed text-[var(--foreground-secondary)]">
             {result.outreachNextSteps.map((s, i) => (
               <li key={`${result.id}-os-${i}`} className="mb-1">
                 {s}
               </li>
             ))}
           </ul>
-          <div className="text-xs text-zinc-500">
+          <div className="text-xs text-[var(--foreground-muted)]">
             Tip: always confirm eligibility and submission guidelines on the funder’s website.
           </div>
         </div>

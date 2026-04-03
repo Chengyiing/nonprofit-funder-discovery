@@ -52,21 +52,21 @@ function ContactChannel({
   email: string;
 }) {
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+    <div className="flex h-full flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm transition-shadow hover:shadow-md">
       <div className="flex items-start gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-warm)] text-[var(--accent)]">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-muted)]/90 text-[var(--accent)]">
           <MailIcon className="h-5 w-5" />
         </span>
         <div className="min-w-0 flex-1">
-          <h3 className="text-[0.8125rem] font-semibold uppercase tracking-[0.06em] text-zinc-500">
+          <h3 className="text-[0.8125rem] font-semibold uppercase tracking-[0.06em] text-[var(--foreground-muted)]">
             {title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-600">{description}</p>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--foreground-secondary)]">{description}</p>
         </div>
       </div>
       <a
         href={`mailto:${email}`}
-        className="mt-5 block break-all text-sm font-semibold text-[var(--accent)] underline-offset-2 hover:text-[var(--accent-hover)] hover:underline"
+        className="mt-5 block break-all text-sm font-semibold text-[var(--accent)] underline-offset-2 transition-colors hover:text-[var(--accent-hover)] hover:underline"
       >
         {email}
       </a>
@@ -79,14 +79,14 @@ export default function ContactPage() {
     <Container>
       <div className="mx-auto max-w-4xl pb-16 pt-12 sm:pb-20 sm:pt-16">
         {/* A. Intro */}
-        <header className="border-b border-zinc-200/90 pb-12 sm:pb-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-zinc-500">
+        <header className="border-b border-[var(--border)] pb-12 sm:pb-14">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
             Funder Compass
           </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-zinc-900 sm:text-[2.5rem] sm:leading-[1.15]">
+          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[var(--foreground)] sm:text-[2.5rem] sm:leading-[1.15]">
             Contact
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 sm:text-[1.125rem] sm:leading-8">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--foreground-secondary)] sm:text-[1.125rem] sm:leading-8">
             Questions about the tool, collaboration, or future stewardship? We
             welcome feedback from nonprofits, institutional partners, and project
             collaborators.
@@ -95,57 +95,57 @@ export default function ContactPage() {
 
         {/* B. Institutional profile cards */}
         <div className="mt-14 grid gap-10 lg:mt-16 lg:grid-cols-2 lg:gap-12">
-          <article className="flex flex-col rounded-2xl border border-zinc-200/90 bg-white p-8 shadow-sm sm:p-9">
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-zinc-500">
+          <article className="flex flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 shadow-sm sm:p-9">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
               Academic partner
             </p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight text-zinc-900">
+            <h2 className="mt-3 text-xl font-semibold tracking-tight text-[var(--foreground)]">
               Carnegie Mellon / Heinz College
             </h2>
-            <div className="mt-6 border-t border-zinc-100 pt-6">
-              <h3 className="text-sm font-semibold text-zinc-900">
+            <div className="mt-6 border-t border-[var(--border-subtle)] pt-6">
+              <h3 className="text-sm font-semibold text-[var(--foreground)]">
                 About the student team
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-700">
+              <p className="mt-3 text-sm leading-relaxed text-[var(--foreground-secondary)]">
                 This project was developed by a student team at Carnegie Mellon
                 University’s{" "}
-                <strong className="font-medium text-zinc-800">
+                <strong className="font-medium text-[var(--foreground)]">
                   Heinz College of Information Systems and Public Policy
                 </strong>{" "}
                 as part of a capstone focused on public-interest technology,
                 data-driven decision support, and nonprofit applications of AI.
               </p>
             </div>
-            <div className="mt-8 border-t border-zinc-100 pt-6">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.06em] text-zinc-500">
+            <div className="mt-8 border-t border-[var(--border-subtle)] pt-6">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.06em] text-[var(--foreground-muted)]">
                 Capstone team
               </h3>
               <ul className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
                 {TEAM.map((name) => (
                   <li
                     key={name}
-                    className="text-sm font-medium leading-snug text-zinc-800"
+                    className="text-sm font-medium leading-snug text-[var(--foreground)]"
                   >
                     {name}
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-xs leading-relaxed text-zinc-500">
+              <p className="mt-6 text-xs leading-relaxed text-[var(--foreground-muted)]">
                 Names and roles may be updated as this site is maintained.
               </p>
             </div>
           </article>
 
-          <article className="flex flex-col rounded-2xl border border-zinc-200/90 bg-white p-8 shadow-sm sm:p-9">
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-zinc-500">
+          <article className="flex flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 shadow-sm sm:p-9">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--foreground-muted)]">
               Partner organization
             </p>
-            <h2 className="mt-3 text-xl font-semibold tracking-tight text-zinc-900">
+            <h2 className="mt-3 text-xl font-semibold tracking-tight text-[var(--foreground)]">
               KMSG
             </h2>
-            <div className="mt-6 border-t border-zinc-100 pt-6">
-              <h3 className="text-sm font-semibold text-zinc-900">About KMSG</h3>
-              <p className="mt-4 text-sm leading-[1.7] text-zinc-700">
+            <div className="mt-6 border-t border-[var(--border-subtle)] pt-6">
+              <h3 className="text-sm font-semibold text-[var(--foreground)]">About KMSG</h3>
+              <p className="mt-4 text-sm leading-[1.7] text-[var(--foreground-secondary)]">
                 KMSG is a social impact consulting firm that works with leaders
                 navigating complexity. From capital campaigns, narrative resets,
                 and moments of crisis to organizational pivots and field-wide
@@ -157,11 +157,11 @@ export default function ContactPage() {
         </div>
 
         {/* C. Inquiries */}
-        <section className="mt-16 border-t border-zinc-200/90 pt-14 sm:mt-20 sm:pt-16">
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">
+        <section className="mt-16 border-t border-[var(--border)] pt-14 sm:mt-20 sm:pt-16">
+          <h2 className="text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl">
             Inquiries and feedback
           </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600">
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--foreground-secondary)]">
             Use the channels below for project questions, partnership conversations,
             or suggestions to improve the tool. Addresses may be updated as
             stewardship and routing are finalized.
