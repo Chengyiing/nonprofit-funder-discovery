@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import Container from "@/components/layout/Container";
 import FunderSearchForm from "@/components/search/FunderSearchForm";
 import FunderResultCard from "@/components/funders/FunderResultCard";
+import { SavedFundersProvider } from "@/components/funders/SavedFundersContext";
+import SavedFundersPanel from "@/components/funders/SavedFundersPanel";
 import type {
   FunderRecommendation,
   RecommendationsResponse,
@@ -84,6 +86,7 @@ export default function ToolPageClient() {
   }
 
   return (
+    <SavedFundersProvider>
     <div className="pb-16 pt-8 sm:pb-24 sm:pt-12">
       <Container>
         <div className="flex flex-col gap-12">
@@ -105,6 +108,8 @@ export default function ToolPageClient() {
           </section>
 
           <FunderSearchForm onSearch={handleSearch} isLoading={loading} />
+
+          <SavedFundersPanel />
 
           <section aria-label="Funder recommendations" className="space-y-8">
             {loading ? (
@@ -181,5 +186,6 @@ export default function ToolPageClient() {
         </div>
       </Container>
     </div>
+    </SavedFundersProvider>
   );
 }
