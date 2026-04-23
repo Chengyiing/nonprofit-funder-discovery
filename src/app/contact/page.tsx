@@ -34,12 +34,15 @@ function MailIcon({ className }: { className?: string }) {
   );
 }
 
+const externalLinkClass =
+  "text-[var(--accent)] underline decoration-[var(--border)]/80 underline-offset-[3px] transition-colors hover:text-[var(--accent-hover)] hover:decoration-[var(--accent)]/35";
+
 const TEAM = [
-  "Chengyi Cai",
-  "Zoe Iseri",
-  "Chloe Huang",
-  "Jhanavi Sankar",
-  "Shiyu Liu",
+  { name: "Chengyi Cai", href: "https://www.linkedin.com/in/chengyic" },
+  { name: "Zoe Iseri", href: "https://www.linkedin.com/in/zoe-iseri" },
+  { name: "Chloe Huang", href: "https://www.linkedin.com/in/yihan-huang-chloe" },
+  { name: "Jhanavi Sankar", href: "https://www.linkedin.com/in/jhanavisankar" },
+  { name: "Shiyu Liu", href: "https://www.linkedin.com/in/shiyu-liu-55127a362" },
 ] as const;
 
 function ContactChannel({
@@ -109,9 +112,14 @@ export default function ContactPage() {
               <p className="mt-3 text-sm leading-relaxed text-[var(--foreground-secondary)]">
                 This project was developed by a student team at Carnegie Mellon
                 University’s{" "}
-                <strong className="font-medium text-[var(--foreground)]">
+                <a
+                  href="https://www.heinz.cmu.edu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`font-medium ${externalLinkClass}`}
+                >
                   Heinz College of Information Systems and Public Policy
-                </strong>{" "}
+                </a>{" "}
                 as part of a capstone focused on public-interest technology,
                 data-driven decision support, and nonprofit applications of AI.
               </p>
@@ -120,19 +128,24 @@ export default function ContactPage() {
               <h3 className="text-xs font-semibold uppercase tracking-[0.06em] text-[var(--foreground-muted)]">
                 Capstone team
               </h3>
-              <ul className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
-                {TEAM.map((name) => (
+              <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
+                {TEAM.map((member) => (
                   <li
-                    key={name}
-                    className="text-sm font-medium leading-snug text-[var(--foreground)]"
+                    key={member.href}
+                    className="min-w-0 border-l-2 border-[var(--border-subtle)] pl-3"
                   >
-                    {name}
+                    <a
+                      href={member.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-block text-sm font-medium leading-snug ${externalLinkClass}`}
+                    >
+                      {member.name}
+                      <span className="sr-only"> (LinkedIn, new tab)</span>
+                    </a>
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-xs leading-relaxed text-[var(--foreground-muted)]">
-                Names and roles may be updated as this site is maintained.
-              </p>
             </div>
           </article>
 
@@ -146,7 +159,15 @@ export default function ContactPage() {
             <div className="mt-6 border-t border-[var(--border-subtle)] pt-6">
               <h3 className="text-sm font-semibold text-[var(--foreground)]">About KMSG</h3>
               <p className="mt-4 text-sm leading-[1.7] text-[var(--foreground-secondary)]">
-                KMSG is a social impact consulting firm that works with leaders
+                <a
+                  href="https://www.kmstrategiesgroup.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`font-medium ${externalLinkClass}`}
+                >
+                  KMSG
+                </a>{" "}
+                is a social impact consulting firm that works with leaders
                 navigating complexity. From capital campaigns, narrative resets,
                 and moments of crisis to organizational pivots and field-wide
                 strategic planning, KMSG supports organizations that need clarity,
